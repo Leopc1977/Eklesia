@@ -1,7 +1,10 @@
-- clean TODO;
-- implementation des exemple dans chatarena/examples/chameleon.json
-    Arena.from_config("examples/tic-tac-toe.json").launch_cli()
-    equivalent to config ? methode integre pour chaque instance agent, arena, etc
+=> introduire la logique de agent moderateur pour check le cas terminal de l'env via env ?  
 - integrer les api/modele options de game_arena voire +
+- gerer max_tokens
+-     "moderator_visibility": "all",
+    "moderator_period": "round"
+- const orchestrator = new Orchestrator({ strategy: "roundRobin" })
 
+---
 - change parameters variable (x,y,z) to a object {x:x,y:y,z:z}; (standby)
+- pour l'instant le terminalConditionPrompt est case insensitive

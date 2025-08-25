@@ -1,3 +1,4 @@
+import { Moderator } from "../Agents";
 import Agent from "../Agents/Agent";
 import Environment from "../Environments/Environment";
 
@@ -15,22 +16,28 @@ export default class Orchestrator<
 
   async step(
     agents: Array<Agent>,
-  ) {
-    if (agents.length === 0) return;
+  ) : Promise<boolean> {
+    if (agents.length === 0) return false;
 
-    const currentAgent = agents[this.currentAgentIndex];
+    const currentAgent = agents[this.currentAgentIndex % agents.length];
     const observation = this.environment.getObservation(
       // currentAgent.agentName
       null,
     );
 
-    if (!observation || !currentAgent) return;
-
-    const _action = await currentAgent.act(
+    if (!observation || !currentAgent) return false; // TODO: cleaner
+ 
+    const action = await currentAgent.act(
       observation, 
       this.environment.description
     );
-
-    this.currentAgentIndex = (this.currentAgentIndex + 1) % agents.length;
+  
+    const isTerminal = await this.environment.isTerminal(
+      this.currentAgentIndex % agents.length && this.currentAgentIndex > 0,
+    );
+  
+    this.environment.addMessage(currentAgent.agentName, action)
+    this.currentAgentIndex = (this.currentAgentIndex + 1);
+    return isTerminal;
   }
 }

@@ -52,7 +52,7 @@ export default class Agent <
         } else {
           allMessages.push({
             role: msg.role,
-            content: `${msg.content}${END_OF_MESSAGE}`,
+            content: `${msg.content}`,
           })
         }
       })
@@ -77,17 +77,13 @@ export default class Agent <
       
           if (lastMsg && lastMsg.role === "user") {
             if (this.mergeOtherAgentAsUser) {
-              // Fusionner avec le dernier message user
               lastMsg.content = `${lastMsg.content}\n\n[${msg.role}]: ${msg.content}`;
             } else {
-              // Ajouter un nouveau bloc user
               messages.push({ role: "user", content: `[${msg.role}]: ${msg.content}` });
             }
           } else if (lastMsg && lastMsg.role === "assistant") {
-            // Fusionner les messages assistants consécutifs
             lastMsg.content = `${lastMsg.content}\n${msg.content}`;
           } else if (lastMsg && lastMsg.role === "system") {
-            // Ajouter un nouveau user après system
             messages.push({ role: "user", content: `[${msg.role}]: ${msg.content}` });
           } else {
             throw new Error(`Invalid role: ${lastMsg ? lastMsg.role : "undefined"}`);
@@ -95,11 +91,7 @@ export default class Agent <
         }
       });
 
-      const completion: ChatCompletionResponse = await this.provider.query(
-        messages
-      );
-      // console.log(JSON.stringify(completion, null, 2))
-      // console.log(completion.choices[0].message.content)
+      const completion: ChatCompletionResponse = await this.provider.query(messages);
       let response = completion.choices[0]?.message.content
       console.log("[", this.agentName, "]")//, this.roleDesc);
       console.log(response);
@@ -116,9 +108,9 @@ export default class Agent <
           const response = await this.#rawQuery(
               observation,
               environmentDescription,
-          )
+          );
 
-          return response
+          return response;
         }
         catch (e: any) {
           const errMsg = `Agent ${this.agentName} failed to generate a response. Error: ${e?.message ?? e}. Sending signal to end the conversation.`;

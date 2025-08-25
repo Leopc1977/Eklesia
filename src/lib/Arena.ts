@@ -1,6 +1,12 @@
+import { Moderator } from "./Agents";
 import Agent from "./Agents/Agent";
+import { ConversationEnvironment } from "./Environments";
 import Environment from "./Environments/Environment";
 import Orchestrator from "./Orchestrators/Orchestrator";
+import { OpenAIGenericProvider } from "./Providers";
+
+// TODO: refacto les endroits avec new OpenAIGenericProvider() pour generalisé les types (2 endroits)
+// TODO: gerer plusieurs modeles avec plusieurs endpoints pour chasue model (joueur & modo)
 
 export default class Arena <
   GenericAgent extends Agent = Agent,
@@ -25,11 +31,71 @@ export default class Arena <
     
   }
 
+  static async loadConfig(
+    path: string, 
+    model: string
+  ) : Promise<Arena> {
+    if (!this.loadConfig || !model) {
+      throw new Error(``);
+    }
+
+    const file: Bun.BunFile = Bun.file(path);
+    const config = await file.json();
+
+    const agents: Array<Agent> = config.agents.map((agentConfig: any) => {
+      const provider = agentConfig.provider.type === "openai-chat" 
+        ? new OpenAIGenericProvider(
+          model,
+          `http://127.0.0.1:8081/v1/chat/completions`
+        ) : null;
+
+      if (!provider) { throw new Error(`Provider type ${agentConfig.provider.type} not found or not supported`) }
+
+      return new Agent(
+        agentConfig.name,
+        agentConfig.role_desc,
+        provider,
+      );
+    });
+
+    const SelectedOrchestrator = Orchestrator; // le switch based sur le type turn;
+
+    const SelectedEnvironment = config.environment.type === "conversation"
+      ? ConversationEnvironment
+      : Environment;
+
+    const environment = new SelectedEnvironment(
+      config.global_prompt,
+      new Moderator(
+        config.environment.moderator.role_desc,
+        config.environment.moderator.terminal_condition,
+        config.environment.moderator.terminal_sentence,
+        config.environment.moderator.period,
+        new OpenAIGenericProvider(
+          model,
+          `http://127.0.0.1:8081/v1/chat/completions`,
+          config.environment.moderator.temperature
+        ),
+      )
+    );
+
+    const orchestrator = new SelectedOrchestrator (
+      environment,
+    );
+
+    return new Arena<Agent, typeof orchestrator, typeof environment>(
+      agents,
+      orchestrator,
+      environment,
+    );
+  }
+
   async run (maxSteps: number = 100) {
     for (let i = 0; i < maxSteps; i++) {
-      await this.orchestrator.step(
+      const isTerminal = await this.orchestrator.step(
         this.agents,
       );
+      if (isTerminal) break;
     }
   }
 }
