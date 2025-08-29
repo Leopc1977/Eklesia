@@ -63,16 +63,14 @@ export default class Agent <
       );
 
       const messages: Array<Message> = [];
-  
-      allMessages.forEach((msg, i) => {
+
+      allMessages.forEach((msg) => {
         if (msg.role === SYSTEM_NAME) {
           messages.push({ role: "system", content: msg.content });
         }
         else if (msg.role === this.agentName) {
-          // Message de l'agent => assistant
           messages.push({ role: "assistant", content: msg.content });
         } else {
-          // On regarde le dernier message existant
           let lastMsg = messages[messages.length - 1];
       
           if (lastMsg && lastMsg.role === "user") {
@@ -104,7 +102,7 @@ export default class Agent <
       observation: Array<Message>, 
       environmentDescription: string
     ): Promise<string> {
-        try {
+      try {
           const response = await this.#rawQuery(
               observation,
               environmentDescription,

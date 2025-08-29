@@ -1,4 +1,4 @@
-import { Agent, Arena, OpenAIGenericProvider, User, ConversationEnvironment, TerminalInputProvider, ConversationOrchestrator } from "./src/lib";
+import { Agent, Arena, OpenAIGenericProvider, User, ConversationEnvironment, TerminalInputProvider, Orchestrator } from "./src/lib";
 
 const localprovider = new OpenAIGenericProvider(
     "deepseek-llm-7b-chat.Q4_K_M", 
@@ -61,7 +61,7 @@ const agents = [ceo, agent1, agent2, agent3, agent4, agent5];
 
 const conversation = new ConversationEnvironment(environment_description);
 
-const orchestrator = new ConversationOrchestrator(conversation);
+const orchestrator = new Orchestrator(conversation);
 
 const arena = new Arena(
     agents,

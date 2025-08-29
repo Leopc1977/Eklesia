@@ -1,6 +1,6 @@
 // EXAMPLE TAKEN FROM : https://github.com/Farama-Foundation/chatarena/blob/a15802dd89c0d69165bb0b07e70c2bac5a7c4e36/experiments/ai_council.py
 
-import { Agent, Arena, OpenAIGenericProvider, User, ConversationEnvironment, TerminalInputProvider, ConversationOrchestrator } from "../dist";
+import { Agent, Arena, OpenAIGenericProvider, User, ConversationEnvironment, TerminalInputProvider, Orchestrator } from "../dist";
 
 const localprovider = new OpenAIGenericProvider(
     "deepseek-llm-7b-chat.Q4_K_M", 
@@ -63,7 +63,7 @@ const agents = [ceo, agent1, agent2, agent3, agent4, agent5];
 
 const conversation = new ConversationEnvironment(environment_description);
 
-const orchestrator = new ConversationOrchestrator(conversation);
+const orchestrator = new Orchestrator(conversation);
 
 const arena = new Arena(
     agents,
@@ -72,6 +72,6 @@ const arena = new Arena(
 );
 
 const agentsCount = agents.length;
-const totalTurns = 1;
+const totalRounds = 1;
 
-arena.run(agentsCount * totalTurns);
+arena.run(agentsCount * totalRounds);

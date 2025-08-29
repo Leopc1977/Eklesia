@@ -26,18 +26,18 @@ export default class Orchestrator<
     );
 
     if (!observation || !currentAgent) return false; // TODO: cleaner
- 
     const action = await currentAgent.act(
       observation, 
       this.environment.description
     );
-  
-    const isTerminal = await this.environment.isTerminal(
-      this.currentAgentIndex % agents.length && this.currentAgentIndex > 0,
-    );
-  
+    
     this.environment.addMessage(currentAgent.agentName, action)
+
+    const endingRound = this.currentAgentIndex % agents.length && this.currentAgentIndex > 0;
+    const isTerminal = await this.environment.isTerminal(endingRound);
+
     this.currentAgentIndex = (this.currentAgentIndex + 1);
+
     return isTerminal;
   }
 }

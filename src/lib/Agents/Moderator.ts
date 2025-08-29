@@ -3,20 +3,20 @@ import Provider from "../Providers";
 
 export default class ModeratorUser extends Agent {
   terminalConditionPrompt: string;
-  terminalSentence: string;
+  terminalSentences:  Array<string>;
   period: string;
 
   constructor(
     roleDesc: string,
     terminalConditionPrompt: string,
-    terminalSentence: string,
+    terminalSentences: Array<string>,
     period: string,
     provider: Provider,
   ) {
     super("Moderator", roleDesc, provider);
 
     this.terminalConditionPrompt = terminalConditionPrompt;
-    this.terminalSentence = terminalSentence;
+    this.terminalSentences = terminalSentences;
     this.period = period;
   }
 }

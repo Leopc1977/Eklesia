@@ -38,13 +38,16 @@ export default class ConversationEnvironment extends Environment {
         || this.moderator.period === "round" && beforeNewRound
       )
     ) {
+      this.print()
       const response: string = await this.moderator.act(
-        this.getObservation(),
+        this.getObservation(null),
         this.moderator.terminalConditionPrompt
       );
 
-      if (response.includes(this.moderator.terminalSentence)) {
-        return true;
+      for (const terminalSentence of this.moderator.terminalSentences) {
+        if (response.includes(terminalSentence)) {
+          return true;
+        }
       }
     }
 
