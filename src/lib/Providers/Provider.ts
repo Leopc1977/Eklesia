@@ -1,5 +1,5 @@
 import ChatCompletionResponse from "../types/ChatCompletionResponse";
-import Message from "../types/Message";
+import { Message } from "../types";
 
 const DEFAULT_TEMPERATURE = 0.7
 const DEFAULT_MAX_TOKEN = 300

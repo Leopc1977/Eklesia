@@ -1,5 +1,5 @@
 import Environment from "./Environment";
-import Message from "../types/Message";
+import { Message } from "../types";
 import { Moderator } from "../Agents";
 
 export default class ConversationEnvironment extends Environment {

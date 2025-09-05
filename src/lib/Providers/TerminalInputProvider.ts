@@ -1,5 +1,5 @@
 import Provider from "./Provider";
-import Message from "../types/Message";
+import { Message } from "../types";
 
 export default class TerminalInputProvider extends Provider {
   constructor() {

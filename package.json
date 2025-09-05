@@ -37,7 +37,7 @@
     "typescript": ">=4.5.0"
   },
   "keywords": ["typescript", "bun", "library"],
-  "author": "Ton Nom",
+  "author": "Leopc1977",
   "license": "MIT",
   "engines": {
     "bun": ">=1.0.0"

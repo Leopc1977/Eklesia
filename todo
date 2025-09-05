@@ -13,7 +13,7 @@ v1
 - avoir des valeurs par defaut pour certains params de load config
 - les exemple changer pour utiliser le dist au lieu de src
 - ajouter les endpoints dans les configs
-- export Message
+
 ---
 
 vX

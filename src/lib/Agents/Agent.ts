@@ -1,8 +1,7 @@
 import { randomUUID } from "crypto";
 
 import Provider from "../Providers/Provider";
-import ChatCompletionResponse from "../types/ChatCompletionResponse";
-import Message  from "../types/Message";
+import { ChatCompletionResponse, Message } from "../types";
 
 const END_OF_MESSAGE = "<EOS>"  // End of message token specified by us not OpenAI
 // const STOP = ("<|endoftext|>", END_OF_MESSAGE)  // End of sentence token

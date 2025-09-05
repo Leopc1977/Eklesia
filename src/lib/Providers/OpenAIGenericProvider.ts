@@ -1,6 +1,5 @@
 import Provider from "./Provider";
-import Message from "../types/Message";
-
+import { Message } from "../types";
 export default class OpenAIGenericProvider extends Provider {
 
   endpointUrl: string;
