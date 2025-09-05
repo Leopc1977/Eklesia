@@ -3,7 +3,7 @@ import Agent from "./Agents/Agent";
 import { ConversationEnvironment } from "./Environments";
 import Environment from "./Environments/Environment";
 import Orchestrator from "./Orchestrators/Orchestrator";
-import { getProviderByType, OpenAIGenericProvider } from "./Providers";
+import { getProviderByType } from "./Providers";
 
 export default class Arena <
   GenericAgent extends Agent = Agent,
@@ -43,7 +43,8 @@ export default class Arena <
         agentConfig.provider.type,
         agentConfig.provider.model,
         `http://127.0.0.1:8081/v1/chat/completions`,
-
+        agentConfig.provider.temperature,
+        agentConfig.provider.max_tokens,
       );
 
       if (!provider) { throw new Error(`Provider type ${agentConfig.provider.type} not found or not supported`) }
@@ -77,7 +78,8 @@ export default class Arena <
           config.environment.moderator.provider.type,
           config.environment.moderator.provider.model,
           `http://127.0.0.1:8081/v1/chat/completions`,
-          config.environment.moderator.temperature
+          config.environment.moderator.temperature,
+          config.environment.moderator.max_tokens,
         ),
       )
     );

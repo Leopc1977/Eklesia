@@ -1,6 +1,7 @@
-import { Moderator } from "../Agents";
 import Agent from "../Agents/Agent";
 import Environment from "../Environments/Environment";
+
+const SIGNAL_END_OF_CONVERSATION = `<<<<<<END_OF_CONVERSATION>>>>>>`;
 
 export default class Orchestrator<
   GenericEnvironment extends Environment = Environment
@@ -20,16 +21,27 @@ export default class Orchestrator<
     if (agents.length === 0) return false;
 
     const currentAgent = agents[this.currentAgentIndex % agents.length];
+
+    if (!currentAgent) {
+      // TODO: Error handling
+      return false;
+    }
     const observation = this.environment.getObservation(
-      // currentAgent.agentName
-      null,
+      currentAgent.agentName
     );
 
-    if (!observation || !currentAgent) return false; // TODO: cleaner
+    if (!observation || !currentAgent) {
+      // TODO: Error handling
+      return false;
+    }
     const action = await currentAgent.act(
       observation, 
       this.environment.description
     );
+
+    // if (action.includes(SIGNAL_END_OF_CONVERSATION)) {
+    //   return true;
+    // }
     
     this.environment.addMessage(currentAgent.agentName, action)
 

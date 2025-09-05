@@ -9,9 +9,10 @@ export default class OpenAIGenericProvider extends Provider {
   constructor(
     model:string, 
     endpointUrl: string, 
-    temperature?: number
+    temperature?: number,
+    max_tokens?: number,
   ) {
-      super(temperature);
+      super(temperature, max_tokens);
 
       this.model = model;
       this.endpointUrl = endpointUrl;

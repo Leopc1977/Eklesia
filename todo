@@ -1,8 +1,9 @@
-=> introduire la logique de agent moderateur pour check le cas terminal de l'env via env ?  
+v1
+
 - integrer les api/modele options de game_arena voire +
-- gerer max_tokens
+- gerer max_tokens => done MAIS mettre tous les options rassemblé dans un objet 
+ - change parameters variable (x,y,z) to a object {x:x,y:y,z:z}; (standby)
 -     "moderator_visibility": "all",
-    "moderator_period": "round"
 - const orchestrator = new Orchestrator({ strategy: "roundRobin" })
 - gerer quand le provider est indisposible
 - le load config dot aussi prendre en compte quand y'a pas de moderateur sauf si on oblige d'avoir un modo
@@ -10,7 +11,12 @@
 - deleguer le load config opur chaque composante de l'arena au lieu de tout chareg depuis l'arena ?
 - meme chose pour reset ?
 - avoir des valeurs par defaut pour certains params de load config
-
+- les exemple changer pour utiliser le dist au lieu de src
+- ajouter les endpoints dans les configs
+- export Message
 ---
-- change parameters variable (x,y,z) to a object {x:x,y:y,z:z}; (standby)
-- pour l'instant le terminalConditionPrompt est case insensitive
+
+vX
+- pour l'instant le terminalConditionPrompt est case insensitive, en faire une option sensitive ?
+- ajouter les tests sur les reponses 
+- 

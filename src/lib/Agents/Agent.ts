@@ -6,7 +6,7 @@ import Message  from "../types/Message";
 
 const END_OF_MESSAGE = "<EOS>"  // End of message token specified by us not OpenAI
 // const STOP = ("<|endoftext|>", END_OF_MESSAGE)  // End of sentence token
-const BASE_PROMPT = `The messages always end with the token ${END_OF_MESSAGE}.`
+const BASE_PROMPT = ``
 const SYSTEM_NAME = "system"
 
 const SIGNAL_END_OF_CONVERSATION = `<<<<<<END_OF_CONVERSATION>>>>>>${randomUUID()}`;
@@ -24,7 +24,7 @@ export default class Agent <
       agentName: string, 
       roleDesc: string, 
       provider: GenericProvider,
-      mergeOtherAgentAsUser: boolean = true,
+      mergeOtherAgentAsUser: boolean = false,
       requestMsg: Message | null = null,
     ) {
       this.agentName = agentName;
@@ -34,7 +34,6 @@ export default class Agent <
       this.requestMsg = requestMsg;
     }
 
-    // @retry(stop=stop_after_attempt(6), wait=wait_random_exponential(min=1, max=60))
     async #rawQuery(
       historyMessages: Array<Message> = [],
       environmentDescription: string | null = null,
@@ -59,7 +58,7 @@ export default class Agent <
 
       if (this.requestMsg) allMessages.push({role: SYSTEM_NAME, content: this.requestMsg.content});
       else allMessages.push(
-          {role: SYSTEM_NAME, content: `Now you speak, ${this.agentName}.${END_OF_MESSAGE}`}
+          {role: SYSTEM_NAME, content: `Now you speak, ${this.agentName}.`}
       );
 
       const messages: Array<Message> = [];
@@ -91,9 +90,6 @@ export default class Agent <
 
       const completion: ChatCompletionResponse = await this.provider.query(messages);
       let response = completion.choices[0]?.message.content
-      console.log("[", this.agentName, "]")//, this.roleDesc);
-      console.log(response);
-      console.log("=================================");
       if (!response) throw new Error(`No response from provider ${this.provider.constructor.name} (${this.agentName} )`)
       return response.trim();
     }
@@ -107,6 +103,10 @@ export default class Agent <
               observation,
               environmentDescription,
           );
+
+          console.log("[", this.agentName, "]")//, this.roleDesc);
+          console.log(response);
+          console.log("=================================");
 
           return response;
         }

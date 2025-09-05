@@ -4,14 +4,14 @@
   "environment": {
     "type": "conversation",
     "moderator": {
-      "role_desc": "You are the system of the game.\nYou should count the number of win rounds of each paper. The player who first wins 2 rounds wins the game.\nYou should also end the game if the players say anything else besides \"rock\",  \"paper\" or \"scissors\", especially if they say long sentences.\n\n## Example\nWhen you see:\n```\n[Player 1]: rock\n[Player 2]: rock\n```\nyou should output the following:\n```\nTie.\nPlayer 1 wins: 0/2\nPlayer 2 wins: 0/2\n```\n\nIn the next round, when you see:\n```\n[Player 1]: rock\n[Player 2]: paper\n```\nyou should output the following:\n```\nPlayer 2 wins this round.\nPlayer 1 wins: 0/2\nPlayer 2 wins: 1/2\n```\n\nIn the next round, when you see:\n```\n[Player 1]: paper\n[Player 2]: scissors\n```\nyou should output the following:\n```\nPlayer 2 wins this round.\nPlayer 1 wins: 0/2\nPlayer 2 wins: 2/2\n\nPlayer 2 wins the game!\n```\n\n## Other instructions\nDon't instruct the player to do anything.\nDon't pretend you are a player.\nDon't repeat the players' outputs.",
-      "terminal_condition": "The game is over when one player wins 2 rounds. Did someone win 2 rounds? Answer format should Yes only if a player won 2 rounds 2 wins else say only No and explain how",
+      "role_desc": "You are a Rock Paper Scissors judge. Follow this EXACT process:\n\n## STEP 1: Find the most recent moves\nLook at the conversation history. Find the LAST message from Player 1 and the LAST message from Player 2.\n\n## STEP 2: State what you found\nWrite: \"This round: Player 1 played [move], Player 2 played [move]\"\n\n## STEP 3: Apply the rules EXACTLY\nThe rules are:\n- rock beats scissors\n- scissors beats paper  \n- paper beats rock\n- same move = tie\n\nDetermine the winner using ONLY these rules.\n\n## STEP 4: Count wins from scratch\nGo through ALL previous rounds in the conversation and count how many times each player has won (not tied). Keep a running total.\n\n## STEP 5: Output in this EXACT format\nThis round: Player 1 played [X], Player 2 played [Y]\nRound winner: [Player 1/Player 2/Tie]\nTotal wins so far: Player 1 = [number], Player 2 = [number]\n\nIf either player now has 2 total wins, add:\nGAME OVER! [Player X] wins the match!\n\n## CRITICAL REMINDERS:\n- rock beats scissors (NOT the other way around)\n- scissors beats paper (NOT the other way around)  \n- paper beats rock (NOT the other way around)\n- Only count actual wins, ignore ties\n- Count ALL wins from the entire conversation history each time",
+      "terminal_condition": "Count total wins for each player from the entire conversation. If Player 1 has 2 or more wins, OR Player 2 has 2 or more wins, answer 'Yes'. Otherwise answer 'No'.",
       "terminal_sentences": ["Yes"],
       "provider": {
         "type": "openai-chat",
         "model": "deepseek-llm-7b-chat.Q4_K_M",
-        "temperature": 0.7,
-        "max_tokens": 50
+        "temperature": 0.0,
+        "max_tokens": 200
       },
       "moderator_visibility": "all",
       "period": "round"
@@ -20,22 +20,22 @@
   "agents": [
     {
       "name": "Player 1",
-      "role_desc": "Randomly output one of the following texts: \"rock\", \"paper\" or \"scissors\"\nYour choice should be random, don't follow the order of the sequence I gave you.\n\n## Example\nYou should output\n```\npaper<EOS>\n```\nor \n```\nrock<EOS>\n```\nor\n```\nscissors<EOS>\n```\n\n## Other instructions\nDon't output anything besides one of the three strings.\nDon't output the results in the last turn like \"tie\".\nDon't pretend as if you are a human player.",
+      "role_desc": "Say only one word: rock, paper, or scissors. Pick randomly. : ",
       "provider": {
         "type": "openai-chat",
         "model": "deepseek-llm-7b-chat.Q4_K_M",
-        "temperature": 0.7,
-        "max_tokens": 10
+        "temperature": 1.0,
+        "max_tokens": 2
       }
     },
     {
-      "name": "Player 2",
-      "role_desc": "Randomly output of of the following texts: \"rock\", \"paper\" or \"scissors\"\nYour choice should be random, don't follow the order of the sequence I gave you.\n\n## Example\nYou should output\n```\npaper<EOS>\n```\nor \n```\nrock<EOS>\n```\nor\n```\nscissors<EOS>\n```\n\n## Other instructions\nDon't output anything besides one of the three strings.\nDon't output the results in the last turn like \"tie\".\nDon't pretend as if you are a human player.",
+      "name": "Player 2", 
+      "role_desc": "Say only one word: rock, paper, or scissors. Pick randomly. :",
       "provider": {
         "type": "openai-chat",
         "model": "deepseek-llm-7b-chat.Q4_K_M",
-        "temperature": 0.7,
-        "max_tokens": 10
+        "temperature": 1.0,
+        "max_tokens": 2
       }
     }
   ]
