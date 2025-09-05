@@ -1,6 +1,6 @@
 # Eklesia
 
-> ⚠️ Work in progress — Nothing is published yet. Use at your own risk.  
+> ⚠️ Work in progress. Use at your own risk :)
 > 📝 This README is temporary and subject to change.
 
 Eklesia was originally conceived as a **TypeScript rewrite of [ChatArena](https://github.com/Farama-Foundation/chatarena)** by the [Farama Foundation](https://github.com/Farama-Foundation), which defines multi-agent environments using Arena, Environment, Backend and Player abstractions. However, Eklesia already diverges by introducing an explicit **Orchestrator** layer, an architectural component that coordinates agents, environments, and interaction flows, making the system more modular and backend-agnostic.
@@ -28,12 +28,8 @@ Eklesia was originally conceived as a **TypeScript rewrite of [ChatArena](https:
 
 ## Installation
 
-> Currently not published to NPM. Clone the repo and use locally:
-
 ```bash
-git clone https://github.com/Leopc1977/eklesia.git
-cd eklesia
-bun install
+bun install eklesia
 ```
 
 ---
