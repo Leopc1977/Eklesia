@@ -1,6 +1,6 @@
 {
   "name": "eklesia",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Eklesia is a library for orchestrating AI agent interactions in simulated environments across any backend or local setup.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -36,7 +36,11 @@
   "peerDependencies": {
     "typescript": ">=4.5.0"
   },
-  "keywords": ["typescript", "bun", "library"],
+  "keywords": [
+    "typescript",
+    "bun",
+    "library"
+  ],
   "author": "Leopc1977",
   "license": "MIT",
   "engines": {
