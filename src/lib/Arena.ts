@@ -1,3 +1,4 @@
+import { getFile } from "../utils/getFile";
 import { Moderator } from "./Agents";
 import Agent from "./Agents/Agent";
 import { ConversationEnvironment } from "./Environments";
@@ -35,7 +36,7 @@ export default class Arena <
       throw new Error(``);
     }
 
-    const file: Bun.BunFile = Bun.file(path);
+    const file = getFile(path);
     const config = await file.json();
 
     const agents: Array<Agent> = config.agents.map((agentConfig: any) => {

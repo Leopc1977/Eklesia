@@ -1,6 +1,6 @@
 // Run this script from the same directory
 
-import { Arena } from "../src";
+import { Arena } from "../dist/index.mjs";
 
 const configPath = "./configs/rock-paper-scissors.json";
 
