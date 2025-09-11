@@ -1,4 +1,3 @@
-import { getFile } from "../utils/getFile";
 import { Moderator } from "./Agents";
 import Agent from "./Agents/Agent";
 import { ConversationEnvironment } from "./Environments";
@@ -30,14 +29,13 @@ export default class Arena <
   }
 
   static async loadConfig(
-    path: string, 
+    fileContent: string, 
   ) : Promise<Arena> {
     if (!this.loadConfig) {
       throw new Error(``);
     }
 
-    const file = getFile(path);
-    const config = await file.json();
+    const config = await JSON.parse(fileContent);
 
     const agents: Array<Agent> = config.agents.map((agentConfig: any) => {
       const provider = getProviderByType(
