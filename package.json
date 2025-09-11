@@ -1,6 +1,6 @@
 {
   "name": "eklesia",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Eklesia is a library for orchestrating AI agent interactions in simulated environments across any backend or local setup.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
