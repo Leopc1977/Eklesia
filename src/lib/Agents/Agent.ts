@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { v4 as uuidv4 } from "uuid";
 
 import Provider from "../Providers/Provider";
 import { ChatCompletionResponse, Message } from "../types";
@@ -8,7 +8,7 @@ const END_OF_MESSAGE = "<EOS>"  // End of message token specified by us not Open
 const BASE_PROMPT = ``
 const SYSTEM_NAME = "system"
 
-const SIGNAL_END_OF_CONVERSATION = `<<<<<<END_OF_CONVERSATION>>>>>>${randomUUID()}`;
+const SIGNAL_END_OF_CONVERSATION = `<<<<<<END_OF_CONVERSATION>>>>>>${uuidv4()}`;
 
 export default class Agent <
   GenericProvider extends Provider = Provider,
