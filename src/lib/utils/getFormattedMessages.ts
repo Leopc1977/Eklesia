@@ -15,19 +15,10 @@ export default function getFormattedMessages(
     ? `You are a helpful assistant.\n${environmentDescription.trim()}\n${BASE_PROMPT}\n\nYour name is ${agentName}.\n\nYour role:${roleDesc}`
     : `You are a helpful assistant. Your name is ${agentName}.\n\nYour role:${roleDesc}\n\n${BASE_PROMPT}`;
 
-  let allMessages: Array<Message> = [{role: SYSTEM_NAME, content: systemPrompt}]
-
-  // Useless code, TODO: remove it ?
-  historyMessages.forEach((msg: Message) => {
-    if (msg.role == SYSTEM_NAME) {
-      allMessages.push(msg)
-    } else {
-      allMessages.push({
-        role: msg.role,
-        content: `${msg.content}`,
-      })
-    }
-  })
+  const allMessages: Array<Message> = [
+    { role: SYSTEM_NAME, content: systemPrompt },
+    ...historyMessages
+  ];
 
   if (requestMsg) allMessages.push({role: SYSTEM_NAME, content: requestMsg.content});
   else allMessages.push(
