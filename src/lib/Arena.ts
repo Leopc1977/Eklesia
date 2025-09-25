@@ -28,13 +28,9 @@ export default class Arena <
     
   }
 
-  static async loadConfig(
+  static async loadConfigJSON(
     fileContent: string, 
   ) : Promise<Arena> {
-    if (!this.loadConfig) {
-      throw new Error(``);
-    }
-
     const config = await JSON.parse(fileContent);
 
     const agents: Array<Agent> = config.agents.map((agentConfig: any) => {

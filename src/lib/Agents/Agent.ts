@@ -2,13 +2,9 @@ import { v4 as uuidv4 } from "uuid";
 
 import Provider from "../Providers/Provider";
 import { ChatCompletionResponse, Message } from "../types";
+import { BASE_PROMPT, SIGNAL_END_OF_CONVERSATION, SYSTEM_NAME } from "../constants";
 
-const END_OF_MESSAGE = "<EOS>"  // End of message token specified by us not OpenAI
-// const STOP = ("<|endoftext|>", END_OF_MESSAGE)  // End of sentence token
-const BASE_PROMPT = ``
-const SYSTEM_NAME = "system"
-
-const SIGNAL_END_OF_CONVERSATION = `<<<<<<END_OF_CONVERSATION>>>>>>${uuidv4()}`;
+const AGENT_SIGNAL_END_OF_CONVERSATION = `${SIGNAL_END_OF_CONVERSATION}${uuidv4()}`;
 
 export default class Agent <
   GenericProvider extends Provider = Provider,
@@ -112,7 +108,7 @@ export default class Agent <
         catch (e: any) {
           const errMsg = `Agent ${this.agentName} failed to generate a response. Error: ${e?.message ?? e}. Sending signal to end the conversation.`;
 
-          return SIGNAL_END_OF_CONVERSATION + errMsg;
+          return AGENT_SIGNAL_END_OF_CONVERSATION + errMsg;
         }
     }
 }

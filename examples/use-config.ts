@@ -4,7 +4,7 @@ import { Arena } from "../dist/index.mjs";
 
 const configPath = "./configs/rock-paper-scissors.json";
 
-const arena = await Arena.loadConfig(
+const arena = await Arena.loadConfigJSON(
     fs.readFileSync(configPath, "utf-8")
 );
 arena.run(100);

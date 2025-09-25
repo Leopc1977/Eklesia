@@ -1,8 +1,6 @@
 import Agent from "../Agents/Agent";
 import Environment from "../Environments/Environment";
 
-const SIGNAL_END_OF_CONVERSATION = `<<<<<<END_OF_CONVERSATION>>>>>>`;
-
 export default class Orchestrator<
   GenericEnvironment extends Environment = Environment
 > {
@@ -21,16 +19,12 @@ export default class Orchestrator<
     if (agents.length === 0) return false;
 
     const currentAgent = agents[this.currentAgentIndex % agents.length];
-
     if (!currentAgent) {
       // TODO: Error handling
       return false;
     }
-    const observation = this.environment.getObservation(
-      currentAgent.agentName
-    );
-
-    if (!observation || !currentAgent) {
+    const observation = this.environment.getObservation(currentAgent.agentName);
+    if (!observation) {
       // TODO: Error handling
       return false;
     }

@@ -7,7 +7,7 @@ export default class ConversationEnvironment extends Environment {
   nextAgentIdx = 0;
 
   constructor(
-    description: string = "",
+    description: string,
     moderator: Moderator | null = null,
   ) {
     super(description, moderator);
