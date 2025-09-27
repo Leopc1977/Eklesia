@@ -27,7 +27,7 @@ const agent1 = new Agent(
     "Finance Advisor",
     `You are the finance advisor like Warren Buffet. Here is a brief description of Warren Buffet:\n ${warren_buffett}`,
     localprovider,
-);
+); 
 
 const jeff_bezos = `Jeff Bezos is known for his success as an investor and businessman. He manages his portfolio through the investment firm he founded, Bezos Expeditions, and currently holds positions in dozens of companies. Some of the important tips to invest like Jeff Bezos include building a diversified portfolio, being a long-term investor, and investing in modern, cutting-edge companies ². He also believes in finding opportunity in crisis and knowing what the crowd thinks.`;
 const agent2 = new Agent(
