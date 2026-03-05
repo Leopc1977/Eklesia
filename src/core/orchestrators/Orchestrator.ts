@@ -28,15 +28,14 @@ export default class Orchestrator<
       // TODO: Error handling
       return false;
     }
+
     const action = await currentAgent.act(
       observation, 
       this.environment.description
     );
 
-    // if (action.includes(SIGNAL_END_OF_CONVERSATION)) {
-    //   return true;
-    // }
-    
+    console.log(action)
+
     this.environment.addMessage(currentAgent.agentName, action)
 
     const endingRound = this.currentAgentIndex % agents.length && this.currentAgentIndex > 0;

@@ -85,8 +85,10 @@ export default class Agent <
 
       const completion: ChatCompletionResponse = await this.provider.query(messages);
       let response = completion.choices[0]?.message.content
+
       if (!response) throw new Error(`No response from provider ${this.provider.constructor.name} (${this.agentName} )`)
-      return response.trim();
+
+        return response.trim();
     }
 
     async act(
@@ -98,7 +100,6 @@ export default class Agent <
               observation,
               environmentDescription,
           );
-
           return response;
         }
         catch (e: any) {

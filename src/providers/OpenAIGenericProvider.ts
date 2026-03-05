@@ -4,11 +4,13 @@ import { Message } from "../shared/types";
 export default class OpenAIGenericProvider extends Provider {
 
   endpointUrl: string;
+  apiKey: string;
   model: string;
 
   constructor(
     model:string, 
     endpointUrl: string, 
+    apiKey: string,
     temperature?: number,
     max_tokens?: number,
   ) {
@@ -16,69 +18,71 @@ export default class OpenAIGenericProvider extends Provider {
 
       this.model = model;
       this.endpointUrl = endpointUrl;
+      this.apiKey = apiKey;
   }
 
-  // async query(
-  //   messages: Array<Message>
-  // ): Promise<any> {
-  //   const res = await fetch(this.endpointUrl, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       model: this.model,
-  //       temperature: this.temperature,
-  //       messages: messages,
-  //     })
-  //   });
-  
-  //   const data = await res.json();
-  //   return data;
-  // }
-
-  async query(messages: Array<Message>): Promise<any> {
+  async query(
+    messages: Array<Message>
+  ): Promise<any> {
     const res = await fetch(this.endpointUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${this.apiKey}`},
       body: JSON.stringify({
         model: this.model,
         temperature: this.temperature,
         messages: messages,
-        stream: true // ⚡ important pour activer le streaming
-      }),
+      })
     });
   
-    if (!res.body) throw new Error("Pas de body dans la réponse");
+    const data = await res.json();
+
+    return data;
+  }
+
+  // async query(messages: Array<Message>): Promise<any> {
+  //   const res = await fetch(this.endpointUrl, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${this.apiKey}` },
+  //     body: JSON.stringify({
+  //       model: this.model,
+  //       temperature: this.temperature,
+  //       messages: messages,
+  //       stream: true
+  //     }),
+  //   });
   
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = "";
+  //   if (!res.body) throw new Error("Pas de body dans la réponse");
   
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+  //   const reader = res.body.getReader();
+  //   const decoder = new TextDecoder();
+  //   let fullText = "";
   
-      const chunk = decoder.decode(value, { stream: true });
+  //   while (true) {
+  //     const { done, value } = await reader.read();
+  //     if (done) break;
   
-      const lines = chunk.split("\n");
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          const data = line.slice(6).trim();
-          if (data === "[DONE]") continue;
+  //     const chunk = decoder.decode(value, { stream: true });
   
-          try {
-            const parsed = JSON.parse(data);
-            const token = parsed.content ?? parsed.token ?? "";
-            if (token) {
-              process.stdout.write(token); // affiche direct dans la console
-              fullText += token;
-            }
-          } catch {
-            // ignore si ce n'est pas du JSON
-          }
-        }
-      }
-    }
+  //     const lines = chunk.split("\n");
+  //     for (const line of lines) {
+  //       if (line.startsWith("data: ")) {
+  //         const data = line.slice(6).trim();
+  //         if (data === "[DONE]") continue;
   
-    return fullText;
-  }  
+  //         try {
+  //           const parsed = JSON.parse(data);
+  //           const token = parsed.content ?? parsed.token ?? "";
+  //           if (token) {
+  //             process.stdout.write(token); // affiche direct dans la console
+  //             fullText += token;
+  //           }
+  //         } catch {
+  //           // ignore si ce n'est pas du JSON
+  //         }
+  //       }
+  //     }
+  //   }
+  
+  //   return fullText;
+  // }  
 }

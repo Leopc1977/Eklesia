@@ -35,7 +35,8 @@ export default class Arena <
       const provider = getProviderByType(
         agentConfig.provider.type,
         agentConfig.provider.model,
-        `http://127.0.0.1:8081/v1/chat/completions`,
+        agentConfig.provider.url,
+        process.env.API_KEY!, //TODO
         agentConfig.provider.temperature,
         agentConfig.provider.max_tokens,
       );
@@ -70,7 +71,8 @@ export default class Arena <
         getProviderByType(
           config.environment.moderator.provider.type,
           config.environment.moderator.provider.model,
-          `http://127.0.0.1:8081/v1/chat/completions`,
+          config.environment.moderator.provider.url,
+          process.env.API_KEY!,//TODO
           config.environment.moderator.temperature,
           config.environment.moderator.max_tokens,
         ),

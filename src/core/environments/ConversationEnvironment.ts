@@ -43,6 +43,8 @@ export default class ConversationEnvironment extends Environment {
         this.moderator.terminalConditionPrompt
       );
 
+      console.log(response)
+
       for (const terminalSentence of this.moderator.terminalSentences) {
         if (response.includes(terminalSentence)) {
           return true;
