@@ -8,4 +8,4 @@ const arena = await Arena.loadConfigJSON(
     fs.readFileSync(configPath, "utf-8")
 );
 
-arena.run(10);
+arena.run(100);

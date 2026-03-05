@@ -5,7 +5,7 @@ import { Agent, Arena, OpenAIGenericProvider, User, ConversationEnvironment, Ter
 //     `http://127.0.0.1:8081/v1/chat/completions`
 // );
 const localprovider = new OpenAIGenericProvider(
-    "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+    "MiniMaxAI/MiniMax-M2.5",
     "https://api.together.xyz/v1/chat/completions",
     process.env.API_KEY,
 );
