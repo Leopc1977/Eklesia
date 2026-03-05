@@ -99,10 +99,6 @@ export default class Agent <
               environmentDescription,
           );
 
-          console.log("[", this.agentName, "]")//, this.roleDesc);
-          console.log(response);
-          console.log("=================================");
-
           return response;
         }
         catch (e: any) {

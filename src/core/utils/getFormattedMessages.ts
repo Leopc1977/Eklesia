@@ -51,7 +51,5 @@ export default function getFormattedMessages(
     }
   });
 
-  console.log(messages);
-
   return messages;
 }

@@ -84,7 +84,7 @@ export default class Agent <
       });
 
       const completion: ChatCompletionResponse = await this.provider.query(messages);
-      let response = completion.choices[0]?.message.content
+      let response = completion.choices[0]?.message.content;
       if (!response) throw new Error(`No response from provider ${this.provider.constructor.name} (${this.agentName} )`)
       return response.trim();
     }
@@ -98,10 +98,6 @@ export default class Agent <
               observation,
               environmentDescription,
           );
-
-          console.log("[", this.agentName, "]")//, this.roleDesc);
-          console.log(response);
-          console.log("=================================");
 
           return response;
         }

@@ -37,7 +37,8 @@ export default class Arena <
       const provider = getProviderByType(
         agentConfig.provider.type,
         agentConfig.provider.model,
-        `http://127.0.0.1:8081/v1/chat/completions`,
+        agentConfig.provider.url,
+        process.env.API_KEY!, // TODO : parametrable pas en dur !!!
         agentConfig.provider.temperature,
         agentConfig.provider.max_tokens,
       );
@@ -93,7 +94,7 @@ export default class Arena <
   async run (maxSteps: number = 100) {
     for (let i = 0; i < maxSteps; i++) {
       const isTerminal = await this.orchestrator.step(
-        this.agents,
+        this.agents
       );
 
       if (isTerminal)

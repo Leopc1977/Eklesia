@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022"],
+    "types": ["node"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": false,
@@ -23,7 +24,5 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": false
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test"]
+  }
 }

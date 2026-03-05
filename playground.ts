@@ -1,9 +1,15 @@
 import { Agent, Arena, OpenAIGenericProvider, User, ConversationEnvironment, TerminalInputProvider, Orchestrator } from "./src/lib";
 
+// const localprovider = new OpenAIGenericProvider(
+//     "deepseek-llm-7b-chat.Q4_K_M", 
+//     `http://127.0.0.1:8081/v1/chat/completions`
+// );
 const localprovider = new OpenAIGenericProvider(
-    "deepseek-llm-7b-chat.Q4_K_M", 
-    `http://127.0.0.1:8081/v1/chat/completions`
+    "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+    "https://api.together.xyz/v1/chat/completions",
+    process.env.API_KEY,
 );
+
 const terminalInputProvider = new TerminalInputProvider();
 
 const environment_description = `
@@ -70,6 +76,6 @@ const arena = new Arena(
 );
 
 const agentsCount = agents.length;
-const totalTurns = 1;
+const totalTurns = 10;
 
 arena.run(agentsCount * totalTurns);

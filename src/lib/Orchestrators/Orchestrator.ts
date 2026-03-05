@@ -28,10 +28,13 @@ export default class Orchestrator<
       // TODO: Error handling
       return false;
     }
+
     const action = await currentAgent.act(
       observation, 
       this.environment.description
     );
+
+    console.log(action)
 
     // if (action.includes(SIGNAL_END_OF_CONVERSATION)) {
     //   return true;
