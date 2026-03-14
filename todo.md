@@ -4,7 +4,8 @@ v1
  - change parameters variable (x,y,z) to a object {x:x,y:y,z:z}; (standby)
 -     "moderator_visibility": "all",
 - const orchestrator = new Orchestrator({ strategy: "roundRobin" })
-- gerer quand le provider est indisposible
+- gerer quand le provider est indisposible => error handling ajouté dans Orchestrator.step (throw au lieu de return false silencieux)
+- gerer les api keys => done: loadConfigJSON utilise provider.apiKey du config avec fallback sur API_KEY env var, et throw une erreur descriptive si aucune clé trouvée
 - le load config dot aussi prendre en compte quand y'a pas de moderateur sauf si on oblige d'avoir un modo
 - terminal_sentences ? ou terminal_sentence sans S
 - deleguer le load config opur chaque composante de l'arena au lieu de tout chareg depuis l'arena ?
