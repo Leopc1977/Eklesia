@@ -20,13 +20,11 @@ export default class Orchestrator<
 
     const currentAgent = agents[this.currentAgentIndex % agents.length];
     if (!currentAgent) {
-      // TODO: Error handling
-      return false;
+      throw new Error(`No agent found at index ${this.currentAgentIndex % agents.length}`);
     }
     const observation = this.environment.getObservation(currentAgent.agentName);
     if (!observation) {
-      // TODO: Error handling
-      return false;
+      throw new Error(`No observation available for agent "${currentAgent.agentName}"`);
     }
 
     const action = await currentAgent.act(

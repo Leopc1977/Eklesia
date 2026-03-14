@@ -32,11 +32,13 @@ export default class Arena <
     const config = await JSON.parse(fileContent);
 
     const agents: Array<Agent> = config.agents.map((agentConfig: any) => {
+      const apiKey = agentConfig.provider.apiKey ?? process.env.API_KEY;
+      if (!apiKey) throw new Error(`No API key provided for agent "${agentConfig.name}". Set API_KEY env var or include apiKey in the provider config.`);
       const provider = getProviderByType(
         agentConfig.provider.type,
         agentConfig.provider.model,
         agentConfig.provider.url,
-        process.env.API_KEY!, //TODO
+        apiKey,
         agentConfig.provider.temperature,
         agentConfig.provider.max_tokens,
       );
@@ -61,6 +63,9 @@ export default class Arena <
       ? [config.environment.moderator.terminal_sentences]
       : config.environment.moderator.terminal_sentences;
 
+    const moderatorApiKey = config.environment.moderator.provider.apiKey ?? process.env.API_KEY;
+    if (!moderatorApiKey) throw new Error("No API key provided for moderator. Set API_KEY env var or include apiKey in the moderator provider config.");
+
     const environment = new SelectedEnvironment(
       config.global_prompt,
       new Moderator(
@@ -72,7 +77,7 @@ export default class Arena <
           config.environment.moderator.provider.type,
           config.environment.moderator.provider.model,
           config.environment.moderator.provider.url,
-          process.env.API_KEY!,//TODO
+          moderatorApiKey,
           config.environment.moderator.temperature,
           config.environment.moderator.max_tokens,
         ),
