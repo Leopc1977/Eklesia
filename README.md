@@ -34,11 +34,67 @@ bun install eklesia
 
 ---
 
-### Quick Start 
+### Quick Start
 
-```js
-import { ... } from 'eklesia';
+**Install:**
+
+```bash
+bun install eklesia
 ```
+
+**Set your API key:**
+
+```bash
+export API_KEY=your_api_key_here
+```
+
+**Run a two-agent conversation:**
+
+```typescript
+import { Arena, Agent, ConversationEnvironment, Orchestrator } from "eklesia";
+import { OpenAIGenericProvider } from "eklesia/providers";
+
+const provider = new OpenAIGenericProvider(
+  "gpt-4o-mini",
+  "https://api.openai.com/v1/chat/completions",
+  process.env.API_KEY,
+);
+
+const alice = new Agent(
+  "Alice",
+  "You are a helpful assistant who explains things clearly.",
+  provider,
+);
+
+const bob = new Agent(
+  "Bob",
+  "You are a skeptical reviewer who challenges assumptions.",
+  provider,
+);
+
+const environment = new ConversationEnvironment(
+  "Alice and Bob are debating the pros and cons of microservices architecture.",
+);
+
+const orchestrator = new Orchestrator(environment);
+
+const arena = new Arena([alice, bob], orchestrator, environment);
+
+await arena.run(10); // run for up to 10 steps
+```
+
+**Or load from a JSON config:**
+
+```typescript
+import { Arena } from "eklesia";
+import { readFileSync } from "fs";
+
+const config = readFileSync("./my-arena-config.json", "utf8");
+const arena = await Arena.loadConfigJSON(config);
+await arena.run(20);
+```
+
+See [`examples/`](./examples/) for more complete scenarios including config-driven setups and multi-agent boards.
 
 ---
 
